@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+##
+# GitHub API script to print each repo's URL.
+#
+# Syntax:
+#
+#    github-api-user-repos-map-to-url
+# 
+# Example:
+#
+#     $ github-api-user-repos-map-to-url
+#     => for each of your repos, print its URL
+#
+# Documentation:
+# 
+#   * https://github.com/sixarm/github-api-scripts
+#
+##
+
+import os
+import sys
+from pprint import pprint
+import logging
+import json
+from github import Github
+
+def github_personal_access_token():
+    x = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    if x is None:
+        print("This script needs an environment variable GITHUB_PERSONAL_ACCESS_TOKEN.", file=sys.stderr)
+        quit()
+    return x
+
+def github_client():
+    return Github(github_personal_access_token())
+
+def repos():
+    return github_client().get_user().get_repos()
+    
+def main():
+    for repo in repos():
+        print(repo.url)
+  
+if __name__== "__main__":
+    main()

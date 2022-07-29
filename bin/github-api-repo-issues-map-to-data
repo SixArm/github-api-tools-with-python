@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+
+## 
+# GitHub API script to print a repo's issues' data.
+#
+# Syntax:
+#
+#     github-api-repo-issues-map-to-data
+# 
+# Example:
+#
+#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=fe7f2bf4057de85eb638dc7356047b0e31d24a4b
+#     $ github-api-repo-issues-map-to-data foo/bar
+#     => access the repo "foo/bar"; for each issue, print its data
+#
+#
+# ## Output
+#
+# The output uses tab-separated values (TSV) and these fields:
+#
+#   * issue.url
+# 
+#   * issue.number
+# 
+#   * issue.updated_at
+# 
+#   * issue.state
+# 
+#   * issue.title
+#
+#
+# ## Known issues
+#
+# The issue fields must not contain tabs, because that would cause the TSV
+# output to be incorrect.
+#
+# Documentation:
+# 
+#   * https://github.com/sixarm/github-api-scripts
+#
+####
+
+import os
+import sys
+from pprint import pprint
+import logging
+import json
+from github import Github
+
+def github_personal_access_token():
+    x = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    if x is None:
+        print("This script needs an environment variable GITHUB_PERSONAL_ACCESS_TOKEN.", file=sys.stderr)
+        quit()
+    return x
+
+def github_client():
+    return Github(github_personal_access_token())
+    
+def issue_data(issue):
+    return f"{issue.url}\t{issue.number}\t{issue.updated_at}\t{issue.state}\t{issue.title}"
+
+def main():
+    github_owner_repo = sys.argv[1]
+    github_client = github_client()
+    repo = github_client.get_repo(github_owner_repo)
+    issues = repo.get_issues(state='all')
+    for issue in issues:
+        print(issue_data(issue))
+
+if __name__== "__main__":
+    main()
