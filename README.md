@@ -1,8 +1,8 @@
-# GitHub API scripts
+# GitHub API tools
 
-GitHub API scripts to use with your own repositories.
+GitHub API tools to use with your own repositories.
 
-These scripts are simple and intended for learning:
+These tools are simple and intended for learning:
 
 * Python 3 with pip3
 
