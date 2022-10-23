@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ## 
-# GitHub API script to print a repo's issues' data.
+# GitHub API tool to print a repo's issues' data.
 #
 # Syntax:
 #
@@ -9,7 +9,7 @@
 # 
 # Example:
 #
-#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=fe7f2bf4057de85eb638dc7356047b0e31d24a4b
+#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=…
 #     $ github-api-repo-issues-map-to-data foo/bar
 #     => access the repo "foo/bar"; for each issue, print its data
 #
@@ -56,17 +56,24 @@ def github_personal_access_token():
 
 def github_client():
     return Github(github_personal_access_token())
-    
-def issue_data(issue):
-    return f"{issue.url}\t{issue.number}\t{issue.updated_at}\t{issue.state}\t{issue.title}"
+
+def do_repo(repo):
+    issues = repo.get_issues(state='all')
+    do_issues(issues)
+
+def do_issues(issues):
+    for issue in issues:
+        do_issue(issue)
+
+def do_issue(issue):
+    print(f"{issue.url}\t{issue.number}\t{issue.updated_at}\t{issue.state}\t{issue.title}")
 
 def main():
     github_owner_repo = sys.argv[1]
+    global github_client
     github_client = github_client()
     repo = github_client.get_repo(github_owner_repo)
-    issues = repo.get_issues(state='all')
-    for issue in issues:
-        print(issue_data(issue))
+    do_repo(repo)
 
 if __name__== "__main__":
     main()

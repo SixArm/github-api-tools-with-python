@@ -10,11 +10,17 @@ These tools are simple and intended for learning:
 
 * PyGitHub: https://pygithub.readthedocs.io/en/latest/introduction.html
 
-Scripts are in the directory [`bin`](bin):
+Tools are in the directory [`bin`](bin):
+
+* [`github-api-repo-print`](bin/github-api-repo)
 
 * [`github-api-repo-issues-map-to-data`](bin/github-api-repo-issues-map-to-data)
 
-* [`github-api-user-repos-map-to-url`](bin/github-api-repo-issues-map-to-url)
+* [`github-api-user-repos`](bin/github-api-user-repos)
+
+* [`github-api-user-repos-map-to-ssh-url`](bin/github-api-user-repos-map-to-ssh-url)
+
+* [`github-api-user-repos-map-to-url`](bin/github-api-user-repos-map-to-url)
 
 
 ## Example

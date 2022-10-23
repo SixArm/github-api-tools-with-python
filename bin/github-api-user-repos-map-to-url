@@ -9,8 +9,10 @@
 # 
 # Example:
 #
+#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=…
 #     $ github-api-user-repos-map-to-url
-#     => for each of your repos, print its URL
+#     => get the user's repos
+#     => for each one, print the repo's URL
 #
 # Documentation:
 # 
@@ -38,9 +40,12 @@ def github_client():
 def repos():
     return github_client().get_user().get_repos()
     
+def do_repo(repo):
+    print(repo.url)
+
 def main():
     for repo in repos():
-        print(repo.url)
+        do_repo(repo)
   
 if __name__== "__main__":
     main()
