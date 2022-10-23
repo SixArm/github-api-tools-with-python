@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+## 
+# GitHub API tool to print a repo's data.
+#
+# Syntax:
+#
+#     github-api-repo
+# 
+# Example:
+#
+#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=fe7f2bf4057de85eb638dc7356047b0e31d24a4b
+#     $ github-api-repo-issues-map-to-data foo/bar
+#     => access the repo "foo/bar", then print its data
+#
+# Documentation:
+# 
+#   * https://github.com/sixarm/github-api-tools
+#
+####
+
+import os
+import sys
+from pprint import pprint
+import logging
+import json
+from github import Github
+
+def github_personal_access_token():
+    x = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    if x is None:
+        print("This script needs an environment variable GITHUB_PERSONAL_ACCESS_TOKEN.", file=sys.stderr)
+        quit()
+    return x
+
+def github_client():
+    return Github(github_personal_access_token())
+    
+def do_repo(repo):
+    pprint(vars(repo))
+
+def main():
+    github_owner_repo = sys.argv[1]
+    global github_client
+    github_client = github_client()
+    repo = github_client.get_repo(github_owner_repo)
+    do_repo(repo)
+
+if __name__== "__main__":
+    main()
