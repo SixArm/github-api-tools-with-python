@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+##
+# GitHub API tool to print each repo's SSH URL.
+#
+# Syntax:
+#
+#    github-api-user-repos-map-to-ssh-url
+# 
+# Example:
+#
+#     $ export GITHUB_PERSONAL_ACCESS_TOKEN=…
+#     $ github-api-user-repos-map-to-ssh-url
+#     => get the user's repos
+#     => for each one, print the repo's SSH URL
+#
+# Documentation:
+# 
+#   * https://github.com/sixarm/github-api-tools
+#
+##
+
+import os
+import sys
+from pprint import pprint
+import logging
+import json
+from github import Github
+
+def github_personal_access_token():
+    x = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    if x is None:
+        print("This script needs an environment variable GITHUB_PERSONAL_ACCESS_TOKEN.", file=sys.stderr)
+        quit()
+    return x
+
+def github_client():
+    return Github(github_personal_access_token())
+
+def repos():
+    return github_client().get_user().get_repos()
+
+def do_repo(repo):
+    print(repo.ssh_url);
+
+def main():
+    for repo in repos():
+        do_repo(repo)
+  
+if __name__== "__main__":
+    main()
+
