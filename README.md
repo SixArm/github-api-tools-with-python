@@ -1,4 +1,4 @@
-# GitHub API tools
+# GitHub API tools with python
 
 GitHub API tools to use with your own repositories.
 
